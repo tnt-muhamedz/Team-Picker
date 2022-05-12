@@ -22,12 +22,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var teamNameStack: UIStackView!
     @IBOutlet weak var teamStack: UIStackView!
     
-    @IBOutlet weak var createTeamButton: UIButton!
-    
     @IBOutlet weak var attackerTableView: UITableView!
     @IBOutlet weak var midfielderTableView: UITableView!
     @IBOutlet weak var defenderTableView: UITableView!
     @IBOutlet weak var tableViewStack: UIStackView!
+    
+    @IBOutlet weak var createTeamButton: UIButton!
+    @IBOutlet weak var clearButton: UIButton!
+    
     
     //MARK: - Properties
     var teamA: [String] = []
@@ -179,26 +181,13 @@ class ViewController: UIViewController {
     @IBAction func createTeamButtonPressed(_ sender: UIButton) {
         
         if teamWasFormed == true {
-            attackers.removeAll()
-            midfielders.removeAll()
-            defenders.removeAll()
-            
-            attackerTableView.reloadData()
-            midfielderTableView.reloadData()
-            defenderTableView.reloadData()
-            
-            teamNameStack.isHidden = true
-            teamStack.isHidden = true
             
             teamALabel.text = ""
             teamBLabel.text = ""
             
-            positionNameStack.isHidden = false
-            tableViewStack.isHidden = false
+            formTeam()
             
-            teamWasFormed = false
-            
-            createTeamButton.setTitle("Formo Skuadrën", for: .normal)
+            teamWasFormed = true
             
             return
         } else {
@@ -212,10 +201,36 @@ class ViewController: UIViewController {
             
             teamWasFormed = true
             
-            createTeamButton.setTitle("Pastro", for: .normal)
+            createTeamButton.setTitle("Retry", for: .normal)
+            clearButton.isHidden = false
         }
         
     }
+    
+    @IBAction func clearButtonPressed(_ sender: UIButton) {
+        attackers.removeAll()
+        midfielders.removeAll()
+        defenders.removeAll()
+        
+        attackerTableView.reloadData()
+        midfielderTableView.reloadData()
+        defenderTableView.reloadData()
+        
+        teamNameStack.isHidden = true
+        teamStack.isHidden = true
+        
+        teamALabel.text = ""
+        teamBLabel.text = ""
+        
+        positionNameStack.isHidden = false
+        tableViewStack.isHidden = false
+        
+        teamWasFormed = false
+        
+        createTeamButton.setTitle("Formo Skuadrën", for: .normal)
+        clearButton.isHidden = true
+    }
+    
     
 }
 

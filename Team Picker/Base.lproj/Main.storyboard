@@ -238,23 +238,36 @@
                                             </view>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ep-gD-ft3">
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="lfE-Tx-KPb">
                                         <rect key="frame" x="117" y="0.0" width="180" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="ISA-Ro-tO9"/>
-                                            <constraint firstAttribute="height" constant="50" id="hdY-8b-H1T"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="filled" title="Formo Skuadrën"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <integer key="value" value="13"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="createTeamButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N3d-mf-PVd"/>
-                                        </connections>
-                                    </button>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ep-gD-ft3">
+                                                <rect key="frame" x="0.0" y="0.0" width="180" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="ISA-Ro-tO9"/>
+                                                    <constraint firstAttribute="height" constant="50" id="hdY-8b-H1T"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Formo Skuadrën"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <integer key="value" value="13"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="createTeamButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="N3d-mf-PVd"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VA3-NA-LH3">
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="filled" title="Pastro"/>
+                                                <connections>
+                                                    <action selector="clearButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PKZ-vv-ahc"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="TrE-EE-efC" firstAttribute="leading" secondItem="iDd-te-9ZN" secondAttribute="leading" constant="20" id="11d-NF-Z3G"/>
@@ -290,6 +303,7 @@
                     <connections>
                         <outlet property="attackerTableView" destination="PDX-x7-CZx" id="KRD-9Q-rM1"/>
                         <outlet property="attackerTextfield" destination="ux9-cO-Icz" id="RUC-15-7x1"/>
+                        <outlet property="clearButton" destination="VA3-NA-LH3" id="08r-pK-4Yb"/>
                         <outlet property="createTeamButton" destination="7Ep-gD-ft3" id="0rZ-fG-vPW"/>
                         <outlet property="defenderTableView" destination="PBC-fa-83m" id="Fb0-8G-BXY"/>
                         <outlet property="defenderTextfield" destination="Qpq-wa-KxI" id="OQO-75-wYv"/>
