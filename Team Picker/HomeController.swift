@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeController.swift
 //  Team Picker
 //
 //  Created by Muhamed Zahiri on 11.05.22.
@@ -7,18 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeController: UIViewController {
     
     //MARK: - IBOutlets
     @IBOutlet weak var attackerTextfield: UITextField!
     @IBOutlet weak var midfielderTextfield: UITextField!
     @IBOutlet weak var defenderTextfield: UITextField!
     
-    @IBOutlet weak var teamALabel: UILabel!
-    @IBOutlet weak var teamBLabel: UILabel!
-    
     @IBOutlet weak var positionNameStack: UIStackView!
-    
     @IBOutlet weak var teamNameStack: UIStackView!
     @IBOutlet weak var teamStack: UIStackView!
     
@@ -26,6 +22,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var midfielderTableView: UITableView!
     @IBOutlet weak var defenderTableView: UITableView!
     @IBOutlet weak var tableViewStack: UIStackView!
+    
+    @IBOutlet weak var teamALabel: UILabel!
+    @IBOutlet weak var teamBLabel: UILabel!
     
     @IBOutlet weak var createTeamButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
@@ -180,16 +179,21 @@ class ViewController: UIViewController {
     //MARK: - IBAction
     @IBAction func createTeamButtonPressed(_ sender: UIButton) {
         
-        if teamWasFormed == true {
+        if attackers.isEmpty && midfielders.isEmpty && defenders.isEmpty {
+            showToast(message: "Mbushni së paku një fushë me lojtar!")
             
+            return
+        }
+        
+        if teamWasFormed == true {
             teamALabel.text = ""
             teamBLabel.text = ""
             
             formTeam()
-            
             teamWasFormed = true
             
             return
+            
         } else {
             positionNameStack.isHidden = true
             tableViewStack.isHidden = true
@@ -201,8 +205,10 @@ class ViewController: UIViewController {
             
             teamWasFormed = true
             
-            createTeamButton.setTitle("Retry", for: .normal)
+            createTeamButton.setTitle("Riprovo", for: .normal)
             clearButton.isHidden = false
+            
+            return
         }
         
     }
@@ -235,7 +241,7 @@ class ViewController: UIViewController {
 }
 
 //MARK: - Textfield
-extension ViewController: UITextFieldDelegate {
+extension HomeController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if attackerTextfield.isFirstResponder {
             if textField.text!.isEmptyOrWhitespace(){
@@ -285,7 +291,7 @@ extension ViewController: UITextFieldDelegate {
 
 
 //MARK: - TableView
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomeController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (tableView == attackerTableView) {
@@ -352,57 +358,4 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return 25
     }
     
-}
-
-
-
-//MARK: - Extensions
-extension Array {
-    func split() -> (left: [Element], right: [Element]) {
-        let ct = self.count
-        let half = ct / 2
-        let leftSplit = self[0 ..< half]
-        let rightSplit = self[half ..< ct]
-        return (left: Array(leftSplit), right: Array(rightSplit))
-    }
-}
-
-extension String {
-    func isEmptyOrWhitespace() -> Bool {
-        if self.isEmpty {
-            return true
-        }
-        // Trim and check empty string
-        return (self.trimmingCharacters(in: .whitespaces) == "")
-    }
-}
-
-open class SelfSizedTableView: UITableView {
-    override open var contentSize: CGSize {
-        didSet {
-            if oldValue != contentSize {
-                invalidateIntrinsicContentSize()
-            }
-        }
-    }
-    
-    override open var intrinsicContentSize: CGSize {
-        return CGSize(width: contentSize.width, height: contentSize.height)
-    }
-}
-
-
-extension UIViewController {
-    /// Call this once to dismiss open keyboards by tapping anywhere in the view controller
-    func setupHideKeyboardOnTap() {
-        self.view.addGestureRecognizer(self.endEditingRecognizer())
-        self.navigationController?.navigationBar.addGestureRecognizer(self.endEditingRecognizer())
-    }
-
-    /// Dismisses the keyboard from self.view
-    private func endEditingRecognizer() -> UIGestureRecognizer {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(self.view.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        return tap
-    }
 }
