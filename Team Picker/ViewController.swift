@@ -253,6 +253,19 @@ extension ViewController: UITextFieldDelegate {
         
         return false
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if attackerTextfield.isFirstResponder {
+            midfielderTextfield.text = nil
+            defenderTextfield.text = nil
+        } else if midfielderTextfield.isFirstResponder {
+            attackerTextfield.text = nil
+            defenderTextfield.text = nil
+        } else if defenderTextfield.isFirstResponder {
+            attackerTextfield.text = nil
+            midfielderTextfield.text = nil
+        }
+    }
 }
 
 
@@ -275,9 +288,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if (tableView == attackerTableView) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "attackerCell", for: indexPath)
             
-            //            var content = cell.defaultContentConfiguration()
-            //            content.text = attackers[indexPath.row]
-            //            cell.contentConfiguration = content
+//          var content = cell.defaultContentConfiguration()
+//          content.text = attackers[indexPath.row]
+//          cell.contentConfiguration = content
             
             cell.textLabel?.text = attackers[indexPath.row].replacingOccurrences(of: " (sulm)", with: "")
             cell.textLabel?.textAlignment = .center
@@ -288,10 +301,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else if (tableView == midfielderTableView) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "midfielderCell", for: indexPath)
             
-            //            var content = cell.defaultContentConfiguration()
-            //            content.text = midfielders[indexPath.row]
-            //            cell.contentConfiguration = content
-            
             cell.textLabel?.text = midfielders[indexPath.row].replacingOccurrences(of: " (mes)", with: "")
             cell.textLabel?.textAlignment = .center
             cell.backgroundColor = .clear
@@ -301,10 +310,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else if (tableView == defenderTableView) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "defenderCell", for: indexPath)
-            
-            //            var content = cell.defaultContentConfiguration()
-            //            content.text = defenders[indexPath.row]
-            //            cell.contentConfiguration = content
             
             cell.textLabel?.text = defenders[indexPath.row].replacingOccurrences(of: " (mbroj)", with: "")
             cell.textLabel?.textAlignment = .center

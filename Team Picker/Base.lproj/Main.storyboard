@@ -187,7 +187,7 @@
                                             <constraint firstAttribute="height" constant="22" id="gR3-8G-H3e"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TrE-EE-efC">
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TrE-EE-efC">
                                         <rect key="frame" x="20" y="0.0" width="374" height="0.0"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aoi-BG-syN">
