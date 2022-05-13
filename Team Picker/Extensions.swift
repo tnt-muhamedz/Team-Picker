@@ -7,7 +7,9 @@
 
 import UIKit
 
+//MARK: - Array Extension
 extension Array {
+    
     func split() -> (left: [Element], right: [Element]) {
         let ct = self.count
         let half = ct / 2
@@ -17,7 +19,9 @@ extension Array {
     }
 }
 
+//MARK: - String Extension
 extension String {
+    
     func isEmptyOrWhitespace() -> Bool {
         if self.isEmpty {
             return true
@@ -27,7 +31,9 @@ extension String {
     }
 }
 
+//MARK: - SelfSizedTableView Class
 open class SelfSizedTableView: UITableView {
+    
     override open var contentSize: CGSize {
         didSet {
             if oldValue != contentSize {
@@ -35,14 +41,14 @@ open class SelfSizedTableView: UITableView {
             }
         }
     }
-    
     override open var intrinsicContentSize: CGSize {
         return CGSize(width: contentSize.width, height: contentSize.height)
     }
 }
 
-
+//MARK: - UIViewController Extension
 extension UIViewController {
+    
     /// Call this once to dismiss open keyboards by tapping anywhere in the view controller
     func setupHideKeyboardOnTap() {
         self.view.addGestureRecognizer(self.endEditingRecognizer())
@@ -55,9 +61,8 @@ extension UIViewController {
         tap.cancelsTouchesInView = false
         return tap
     }
-}
-
-extension UIViewController {
+    
+    //Costum Toast
     func showToast(message : String, _ font: UIFont = .systemFont(ofSize: 14.0) ) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/5, y: self.view.frame.size.height/2, width: 220, height: 50))
         toastLabel.numberOfLines = 0

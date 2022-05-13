@@ -14,6 +14,7 @@ class HomeController: UIViewController {
     @IBOutlet weak var midfielderTextfield: UITextField!
     @IBOutlet weak var defenderTextfield: UITextField!
     
+    @IBOutlet weak var tableViewStack: UIStackView!
     @IBOutlet weak var positionNameStack: UIStackView!
     @IBOutlet weak var teamNameStack: UIStackView!
     @IBOutlet weak var teamStack: UIStackView!
@@ -21,14 +22,12 @@ class HomeController: UIViewController {
     @IBOutlet weak var attackerTableView: UITableView!
     @IBOutlet weak var midfielderTableView: UITableView!
     @IBOutlet weak var defenderTableView: UITableView!
-    @IBOutlet weak var tableViewStack: UIStackView!
     
     @IBOutlet weak var teamALabel: UILabel!
     @IBOutlet weak var teamBLabel: UILabel!
     
     @IBOutlet weak var createTeamButton: UIButton!
     @IBOutlet weak var clearButton: UIButton!
-    
     
     //MARK: - Properties
     var teamA: [String] = []
@@ -52,6 +51,7 @@ class HomeController: UIViewController {
     
     //MARK: - CommonInit
     func commonInit() {
+        
         self.setupHideKeyboardOnTap()
         
         attackerTextfield.delegate = self
@@ -71,19 +71,18 @@ class HomeController: UIViewController {
         defenderTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defenderCell")
     }
     
-    
     //MARK: - FormTeam Function
     func formTeam() {
+        
         teamA.removeAll()
         teamB.removeAll()
-        
         attackers.shuffle()
         midfielders.shuffle()
         defenders.shuffle()
         
         switch attackers.count {
         case 0:
-            print("No attacker")
+            print("No attackers")
         case 1:
             teamA.append(attackers.first!)
         case 2...:
@@ -100,15 +99,9 @@ class HomeController: UIViewController {
         
         switch midfielders.count {
         case 0:
-            print("No midfielder")
-            
+            print("No midfielders")
         case 1:
-            if destroyedBalance == "teamA" || destroyedBalance == "false" {
-                teamB.append(midfielders.first!)
-            } else {
-                teamA.append(midfielders.first!)
-            }
-            
+            destroyedBalance == "teamA" || destroyedBalance == "false" ? teamB.append(midfielders.first!) : teamA.append(midfielders.first!)
         case 2...:
             if destroyedBalance == "teamA" || destroyedBalance == "false" {
                 teamA.append(contentsOf: midfielders.split().left.count < midfielders.split().right.count ? midfielders.split().left : midfielders.split().right)
@@ -117,7 +110,6 @@ class HomeController: UIViewController {
                 teamA.append(contentsOf: midfielders.split().left.count < midfielders.split().right.count ? midfielders.split().right : midfielders.split().left)
                 teamB.append(contentsOf: midfielders.split().left.count < midfielders.split().right.count ? midfielders.split().left : midfielders.split().right)
             }
-            
         default:
             return
         }
@@ -126,13 +118,9 @@ class HomeController: UIViewController {
         
         switch defenders.count {
         case 0:
-            print("No defender")
+            print("No defenders")
         case 1:
-            if destroyedBalance == "teamA" || destroyedBalance == "false" {
-                teamB.append(defenders.first!)
-            } else {
-                teamA.append(defenders.first!)
-            }
+            destroyedBalance == "teamA" || destroyedBalance == "false" ? teamB.append(defenders.first!) : teamA.append(defenders.first!)
         case 2...:
             if destroyedBalance == "teamA" || destroyedBalance == "false" {
                 teamA.append(contentsOf: defenders.split().left.count < defenders.split().right.count ? defenders.split().left : defenders.split().right)
@@ -163,10 +151,10 @@ class HomeController: UIViewController {
             teamBLabel.text?.append("\(players)\n")
         }
         
-        
     }
     
     func compareTeamStrength() {
+        
         if teamA.count == teamB.count {
             destroyedBalance = "false"
         } else if teamA.count > teamB.count {
@@ -181,39 +169,31 @@ class HomeController: UIViewController {
         
         if attackers.isEmpty && midfielders.isEmpty && defenders.isEmpty {
             showToast(message: "Mbushni së paku një fushë me lojtar!")
-            
-            return
-        }
-        
-        if teamWasFormed == true {
-            teamALabel.text = ""
-            teamBLabel.text = ""
-            
-            formTeam()
-            teamWasFormed = true
-            
-            return
-            
         } else {
-            positionNameStack.isHidden = true
-            tableViewStack.isHidden = true
-            
-            teamNameStack.isHidden = false
-            teamStack.isHidden = false
-            
-            formTeam()
-            
-            teamWasFormed = true
-            
-            createTeamButton.setTitle("Riprovo", for: .normal)
-            clearButton.isHidden = false
-            
-            return
+            switch teamWasFormed{
+            case true:
+                teamALabel.text = ""
+                teamBLabel.text = ""
+                
+                formTeam()
+            case false:
+                positionNameStack.isHidden = true
+                tableViewStack.isHidden = true
+                
+                teamNameStack.isHidden = false
+                teamStack.isHidden = false
+                
+                formTeam()
+                teamWasFormed = true
+                
+                createTeamButton.setTitle("Riprovo", for: .normal)
+                clearButton.isHidden = false
+            }
         }
-        
     }
     
     @IBAction func clearButtonPressed(_ sender: UIButton) {
+        
         attackers.removeAll()
         midfielders.removeAll()
         defenders.removeAll()
@@ -224,12 +204,11 @@ class HomeController: UIViewController {
         
         teamNameStack.isHidden = true
         teamStack.isHidden = true
+        positionNameStack.isHidden = false
+        tableViewStack.isHidden = false
         
         teamALabel.text = ""
         teamBLabel.text = ""
-        
-        positionNameStack.isHidden = false
-        tableViewStack.isHidden = false
         
         teamWasFormed = false
         
@@ -237,12 +216,13 @@ class HomeController: UIViewController {
         clearButton.isHidden = true
     }
     
-    
 }
 
 //MARK: - Textfield
 extension HomeController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
         if attackerTextfield.isFirstResponder {
             if textField.text!.isEmptyOrWhitespace(){
                 textField.text?.removeAll()
@@ -276,6 +256,7 @@ extension HomeController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        
         if attackerTextfield.isFirstResponder {
             midfielderTextfield.text = nil
             defenderTextfield.text = nil
@@ -294,62 +275,61 @@ extension HomeController: UITextFieldDelegate {
 extension HomeController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (tableView == attackerTableView) {
+        
+        switch tableView {
+        case attackerTableView:
             return attackers.count
-        } else if (tableView == midfielderTableView) {
+        case midfielderTableView:
             return midfielders.count
-        } else if (tableView == defenderTableView) {
+        case defenderTableView:
             return defenders.count
+        default:
+            return 0
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        print("cellForRowAt called")
-        if (tableView == attackerTableView) {
+        
+        switch tableView {
+        case attackerTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: "attackerCell", for: indexPath)
-            
-//          var content = cell.defaultContentConfiguration()
-//          content.text = attackers[indexPath.row]
-//          cell.contentConfiguration = content
-            
             cell.textLabel?.text = attackers[indexPath.row].replacingOccurrences(of: " (sulm)", with: "")
             cell.textLabel?.textAlignment = .center
             cell.backgroundColor = .clear
-            
+            //var content = cell.defaultContentConfiguration()
+            //content.text = attackers[indexPath.row]
+            //cell.contentConfiguration = content
             return cell
-            
-        } else if (tableView == midfielderTableView) {
+        case midfielderTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: "midfielderCell", for: indexPath)
-            
             cell.textLabel?.text = midfielders[indexPath.row].replacingOccurrences(of: " (mes)", with: "")
             cell.textLabel?.textAlignment = .center
             cell.backgroundColor = .clear
-            
             return cell
-            
-            
-        } else if (tableView == defenderTableView) {
+        case defenderTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: "defenderCell", for: indexPath)
-            
             cell.textLabel?.text = defenders[indexPath.row].replacingOccurrences(of: " (mbroj)", with: "")
             cell.textLabel?.textAlignment = .center
             cell.backgroundColor = .clear
-            
             return cell
+        default:
+            return UITableViewCell()
         }
-        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (tableView == attackerTableView) {
+        
+        switch tableView{
+        case attackerTableView:
             attackers.remove(at: indexPath.row)
-            tableView.reloadData()
-        } else if (tableView == midfielderTableView) {
+            attackerTableView.reloadData()
+        case midfielderTableView:
             midfielders.remove(at: indexPath.row)
-            tableView.reloadData()
-        } else if (tableView == defenderTableView) {
+            midfielderTableView.reloadData()
+        case defenderTableView:
             defenders.remove(at: indexPath.row)
+            defenderTableView.reloadData()
+        default:
             tableView.reloadData()
         }
     }
