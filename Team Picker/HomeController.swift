@@ -88,11 +88,12 @@ class HomeController: UIViewController {
         case 2...:
             teamA.append(contentsOf: attackers.split().left)
             teamB.append(contentsOf: attackers.split().right)
-            if attackers.count % 2 != 0 {
-                moreAttackers = teamA.count > teamB.count ? "teamA" : "teamB"
-            }
         default:
             return
+        }
+        
+        if attackers.count % 2 != 0 {
+            moreAttackers = teamA.count > teamB.count ? "teamA" : "teamB"
         }
         
         compareTeamStrength()
@@ -130,17 +131,32 @@ class HomeController: UIViewController {
                 teamB.append(contentsOf: defenders.split().left.count < defenders.split().right.count ? defenders.split().left : defenders.split().right)
             }
             
-            if teamA.count != teamB.count {
-                if moreAttackers == "teamA" {
+        default:
+            return
+        }
+        
+        if teamA.count != teamB.count {
+            
+            switch moreAttackers {
+            case "teamA":
+                if teamA.count > teamB.count {
                     teamB.append(teamA.last ?? "nope")
                     teamA.removeLast()
                 } else {
+                    print("Nope")
+                }
+            case "teamB":
+                if teamA.count < teamB.count {
                     teamA.append(teamB.last ?? "nope")
                     teamB.removeLast()
+                } else {
+                    print("Nope")
                 }
+            case .none:
+                print("None")
+            case .some(_):
+                print("Some")
             }
-        default:
-            return
         }
         
         for players in teamA{
